@@ -119,3 +119,12 @@ button {
   top: 160px;
   left: 82px;
 }
+
+h3 {
+  display: flex;
+  align-self: flex-end;
+  padding: 5% 5% 0 0;
+  font-family: $montserrat;
+  font-size: 1.15rem;
+  color: $white;
+}

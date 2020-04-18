@@ -48,7 +48,7 @@ const domUpdates = {
 
   animateTypeForCustomer: () => {
     $('#grand-budapest-type').animate({
-      right: '800px',
+      right: '880px',
       top: '60px',
     });
   },
@@ -78,6 +78,12 @@ const domUpdates = {
       <button role="button">Total Revenue for Today</button>
       <button role="button">Percentage of Rooms Occupied Today</button>
       </section>
+      `)
+  },
+
+  showDateInHeader: (date) => {
+    $('.header-container').prepend(`
+      <h3>${date}</h3>
       `)
   },
 };
