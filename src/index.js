@@ -13,11 +13,11 @@ import CustomerRepo from './Customer-repo';
 const circleType = new CircleType(document.getElementById('grand-budapest-type'));
 circleType.radius(600);
 
-// let today = moment().format('MMM Do YYYY');
-let today = moment().format('MM/DD/YYYY');
+let today = moment().format('MMM Do, YYYY');
+// let today = moment().format('MM/DD/YYYY');
 console.log(today);
 
-let users, rooms, bookings, currentCustomer, currentCustomerID, customerRepo;
+let users, rooms, bookings, currentCustomer, currentCustomerID, customerRepo, currentCustomerFirstName;
 
 const fetchData = () => {
   const apiController = new ApiController();
@@ -42,12 +42,14 @@ const fetchedData = (usersData, roomsData, bookingsData) => {
   console.log(customerRepo);
   // console.log('users global var', users);
   // console.log('rooms global var', rooms);
-  // console.log('bookings global var', bookings);
+  console.log('bookings global var', bookings.length);
 }
 
 //LOGIN HELPER FUNCTION Gets Current User First Name;
 const getCurrentUserFirstName = () => {
-  return customerRepo.extractCustomerName(currentCustomerID);
+  let currentCustomerFullName = customerRepo.extractCustomerName(currentCustomerID);
+  currentCustomerFirstName = currentCustomerFullName.split(' ')[0];
+  return currentCustomerFirstName;
 }
 //LOGIN Helper Function that sesses and splits customer Number
 const checkCustomerNumber = (customer) => {
@@ -63,6 +65,7 @@ const checkCustomerNumber = (customer) => {
     domUpdates.changeGrandBudapestToCustomerName(getCurrentUserFirstName());
     domUpdates.animateTypeForCustomer();
     domUpdates.addButtonsToCustomerHeader();
+    domUpdates.showDateInHeader(today);
     // runAppAsCustomer(); BUILD OUT THIS FUNCTION
   }
 }
@@ -78,6 +81,7 @@ $('.login-submit-btn').on('click', () => {
     domUpdates.changeGrandBudapestToManager(username);
     domUpdates.animateTypeForManager();
     domUpdates.addButtonsToManagerHeader();
+    domUpdates.showDateInHeader(today);
     // runAppAsManager(); BUILD OUT THIS Function
   } else if (username.includes('customer') && password === 'overlook2020') {
     checkCustomerNumber(username);
