@@ -4,11 +4,8 @@ class CustomerRepo {
   }
 
   extractCustomerName(id) {
-    this.allUsers.find(user => {
-      if (user.id === id) {
-        return user.name;
-      }
-    })
+    let foundUser = this.allUsers.find(user => user.id === id);
+    return foundUser.name;
   }
 }
 
