@@ -79,13 +79,13 @@ describe('Hotel', function(){
 
   it('Should be able to find the number of bookings on a given date', function(){
     expect(hotel.todaysBookingsQty).to.equal(3);
-    hotel = new Hotel(rooms, bookings);
+    hotel = new Hotel(rooms, bookings, '2020/04/17');
     expect(hotel.todaysBookingsQty).to.equal(1);
   });
 
   it('Should be able to return how many rooms are available on a specific date', function(){
     expect(hotel.findAvailableRoomsToday()).to.equal('There are 0 of 3 total rooms available today 2020/02/07');
-    hotel = new Hotel(rooms, bookings);
+    hotel = new Hotel(rooms, bookings, '2020/04/17');
     expect(hotel.findAvailableRoomsToday()).to.equal('There are 2 of 3 total rooms available today 2020/04/17');
   });
 
