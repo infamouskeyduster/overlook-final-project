@@ -115,6 +115,8 @@ const runAppAsManager = () => {
 const runAppAsCustomer = () => {
   today = moment().format('YYYY/MM/DD');
   currentCustomer = new Customer(currentCustomerID, rooms, bookings, today);
+  hotel = new Hotel(rooms, bookings, today);
+  hotel.findAvailableRoomsToday();
   domUpdates.addDashboardContianerForCustomer();
   // console.log('customer obj', currentCustomer);
 }
@@ -122,6 +124,7 @@ const runAppAsCustomer = () => {
 const globalEventHandler = (event) => {
   if (event.target.id === 'all-bookings-btn') {
     $('#customer-book-room-btn').removeClass('button-clicked');
+    $('.customer-booking-modal').remove();
     //Remove booking modal from DOM here………
     if (event.target.classList.contains('button-clicked')) {
       event.target.classList.remove('button-clicked');
@@ -132,6 +135,7 @@ const globalEventHandler = (event) => {
     }
   } else if (event.target.id === 'total-spent-on-accomodations-btn') {
     $('#customer-book-room-btn').removeClass('button-clicked');
+    $('.customer-booking-modal').remove();
     //Remove booking modal from DOM here………
     if (event.target.classList.contains('button-clicked')) {
       event.target.classList.remove('button-clicked');
@@ -173,6 +177,10 @@ const globalEventHandler = (event) => {
     $('.customer-spending').remove();
     event.target.classList.add('button-clicked');
     domUpdates.addBookingFeatureForCustomer(currentCustomer, hotel);
+  } else if(event.target.id === 'select-room-by-number') {
+    $('#select-room-by-number').on('change', () => {
+      domUpdates.retriveAndShowCustomerRoomInfo(hotel);
+    })
   }
 }
 

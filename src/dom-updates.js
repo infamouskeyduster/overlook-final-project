@@ -1,5 +1,6 @@
 import $ from 'jquery';
 import moment from 'moment';
+let today = moment().format('YYYY-MM-DD');
 
 const domUpdates = {
   loadPage: () => {
@@ -103,12 +104,66 @@ const domUpdates = {
   },
 
   addBookingFeatureForCustomer: (currentCustomer, hotel) => {
+    $('.dashboard-contianer').css({'justify-content': 'center'});
+    $('.dashboard-contianer').prepend(`
+      <section class="customer-booking-modal">
+        <label for="date-to-stay">What day are you looking to stay?</label>
+          <input type="date" id="date-to-stay" name="date-to-stay" value="${today}" min="${today}" max="2020-12-31">
+       </section>
+      `);
+      $('#date-to-stay').on('change', () => {
+        $('.room-info-container').remove();
+        $('.room-number-pull-down-container').remove();
+        $('.customer-booking-modal').append(`
+          <article class="room-number-pull-down-container">
+          <label for="select-room-by-number">Please choose an AVAILABLE room to view details:</label>
+          <select id="select-room-by-number">
+          </select>
+          </article>
+          `);
+          domUpdates.addAvailableRoomNumbersToDropDown(hotel, $('#date-to-stay').val())
+      });
     //date selector
     //pull-down with available rooms
     //^^^when a room is selected, it should show room details
     //ERROR handling 'we are sorry there are NO rooms'
 
     //then post the room to database---->
+  },
+
+  addAvailableRoomNumbersToDropDown: (hotel, date) => {
+    let unformattedDate = date;
+    console.log('unformatted date', unformattedDate);
+    let formattedDate = moment(unformattedDate).format('YYYY/MM/DD');
+    console.log('formatted date', formattedDate);
+    let availableRooms = hotel.findAvailableRoomsObjects(formattedDate);
+    console.log('availableRooms', availableRooms);
+    if(availableRooms.length > 0) {
+      return availableRooms.forEach(room => {
+        $('#select-room-by-number').append(`<option value="${room.number}">Room Number: ${room.number}</option>`)
+      });
+    } else {
+      window.alert('The Concierge M. Gustave is terribly saddened, and deeply apologetic… we have no rooms available on this day')
+    }
+  },
+
+  retriveAndShowCustomerRoomInfo: (hotel) => {
+    $('.room-info-container').remove();
+    let roomNumber = parseInt($('#select-room-by-number').val());
+    let foundRoom = hotel.retrieveSpecificRoomObjectUsingRoomNumber(roomNumber);
+    console.log('found room by room number', foundRoom);
+    $('.customer-booking-modal').append(`
+      <article class="room-info-container">
+      <p>Information for Your Room Choice:</p>
+      <ul>
+        <li>Bed Size: ${foundRoom.bedSize.toUpperCase()}</li>
+        <li>Bidet in suite: ${foundRoom.bidet}</li>
+        <li>Cost of Room Per Night: $${foundRoom.costPerNight}USD</li>
+        <li>Number of Beds: ${foundRoom.numBeds}</li>
+        <li>Room Type: ${foundRoom.roomType.toUpperCase()}</li>
+      </ul>
+      <button>BOOK ROOM NOW!</button>
+      `)
   },
 
   addButtonsToManagerHeader: () => {
