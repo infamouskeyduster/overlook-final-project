@@ -84,9 +84,9 @@ describe('Hotel', function(){
   });
 
   it('Should be able to return how many rooms are available on a specific date', function(){
-    expect(hotel.findAvailableRoomsToday()).to.equal('There are 0 of 3 total rooms available today 2020/02/07');
+    expect(hotel.findAvailableRoomsToday()).to.equal('There are 0 of 3 total rooms available today.');
     hotel = new Hotel(rooms, bookings, '2020/04/17');
-    expect(hotel.findAvailableRoomsToday()).to.equal('There are 2 of 3 total rooms available today 2020/04/17');
+    expect(hotel.findAvailableRoomsToday()).to.equal('There are 2 of 3 total rooms available today.');
   });
 
   it('Should be able to return the percentage of rooms occupied', function(){
@@ -106,5 +106,44 @@ describe('Hotel', function(){
     expect(hotel.calculateTotalRevenueToday()).to.equal('The total revenue for 2020/04/17 is $358.40.');
   });
 
+  it('Should be able to find an Array of Room Numbers that are booked on a certain date (not neccessarily today)', function(){
+    expect(hotel.findBookingsByAnyDate('2020/02/07')).to.deep.equal([ 1, 2, 3 ]);
+    expect(hotel.findBookingsByAnyDate('2020/04/20')).to.deep.equal([]);
+  });
+
+  it('Should be able to return an array of Availble Room Objects', function(){
+    let availbleRooms = [
+      {
+        number: 2,
+        roomType: 'suite',
+        bidet: false,
+        bedSize: 'full',
+        numBeds: 2,
+        costPerNight: 477.38
+      },
+      {
+        number: 3,
+        roomType: 'single room',
+        bidet: false,
+        bedSize: 'king',
+        numBeds: 1,
+        costPerNight: 491.14
+      }
+    ]
+    expect(hotel.findAvailableRoomsObjects('2020/04/17')).to.deep.equal(availbleRooms);
+  });
+
+  it('Should be able to find a scecific Room Object using the Room Number', function(){
+    let foundRoom =
+      {
+        number: 2,
+        roomType: 'suite',
+        bidet: false,
+        bedSize: 'full',
+        numBeds: 2,
+        costPerNight: 477.38
+      }
+    expect(hotel.retrieveSpecificRoomObjectUsingRoomNumber(2)).to.deep.equal(foundRoom);
+  });
 
 });

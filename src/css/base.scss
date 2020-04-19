@@ -17,12 +17,9 @@ $salmon: #e9747d;
 $brick: #954A50;
 $purple: #4A2D37;
 
-
 //Fonts:
 $bellota: 'Bellota', cursive;
-
 $shirkhand: 'Shrikhand', cursive;
-
 $montserrat: 'Montserrat', sans-serif;
 
 * {
@@ -132,7 +129,6 @@ h3 {
 
 .dashboard-contianer {
   display: flex;
-  // flex-direction: row;
   width: 88%;
   margin-top: 1.5%;
   flex-wrap: wrap;
@@ -191,4 +187,81 @@ h3 {
   margin-bottom: 15px;
   margin-right: 84px;
   padding: 40px 55px 40px 55px;
+}
+
+.customer-booking-modal{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  opacity: 0.9;
+  text-align: center;
+  background-color: #cc9554;
+  color: #4A2D37;
+  border-radius: 6px;
+  font-family: "Montserrat", sans-serif;
+  font-size: 1.85rem;
+  line-height: 2.9rem;
+  width: 60%;
+  padding: 40px 55px 40px 55px;
+  margin-bottom: 65px;
+}
+
+.customer-booking-modal input {
+  display: flex;
+  align-self: center;
+  font-family: $montserrat;
+  border-radius: 7px;
+  margin-top: 35px;
+  width:35%;
+  height: 40px;
+  font-size: 1.15rem;
+  border: 1.5px solid $cool-grey;
+}
+
+.room-number-pull-down-container {
+  display: flex;
+  align-self: center;
+  justify-content: center;
+  flex-direction: column;
+  font-family: $montserrat;
+  border-radius: 7px;
+  margin-top: 35px;
+  font-size: 1.8rem;
+}
+
+.room-number-pull-down-container select {
+  font-family: $montserrat;
+  align-self: center;
+  margin-top: 35px;
+  width:35%;
+  height: 40px;
+  font-size: 1.15rem;
+  border-radius: 7px;
+  border: 1.5px solid $cool-grey;
+}
+
+.room-info-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.room-info-container p {
+  margin-top: 35px;
+}
+
+ul {
+  margin-top:40px;
+  background-color: $peach;
+  border: 4px outset $hot-pink;
+  list-style: none;
+  font-size: 1.2rem;
+  line-height: 1.9rem;
+  width: 60%;
+  border-radius: 10px;
+  padding: 15px 0px 15px 0px,
+}
+
+.room-info-container button {
+  margin-top: 25px;
 }
