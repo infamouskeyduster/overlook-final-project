@@ -22,7 +22,7 @@ class Hotel {
   findAvailableRoomsToday() {
     this.totalRooms = this.rooms.length;
     this.availableRooms = this.totalRooms - this.todaysBookingsQty;
-    return `There are ${this.availableRooms} of ${this.totalRooms} total rooms available today ${this.today}`
+    return `There are ${this.availableRooms} of ${this.totalRooms} total rooms available today.`
   }
 
   calculateTotalRevenueToday() {

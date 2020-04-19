@@ -3,7 +3,6 @@ import moment from 'moment';
 
 const domUpdates = {
   loadPage: () => {
-
   },
 
   changeHeaderOnLogin: () => {
@@ -58,33 +57,101 @@ const domUpdates = {
   },
 
   changeBodyBackgroundForCustomer: () => {
-    document.body.style.backgroundImage = "url('./images/budapest_hotel_only_4.jpg')";
-  },
-
-  addButtonsToCustomerHeader: () => {
-    $('.header-container').append(`
-      <section class="customer-button-conatiner">
-      <button role="button">Past Bookings</button>
-      <button role="button">Future Bookings</button>
-      <button role="button">Total Spent on Accomodations</button>
-      </section>
-      `)
-  },
-
-  addButtonsToManagerHeader: () => {
-    $('.header-container').append(`
-      <section class="manager-button-conatiner">
-      <button role="button">Total Rooms Availble Today</button>
-      <button role="button">Total Revenue for Today</button>
-      <button role="button">Percentage of Rooms Occupied Today</button>
-      </section>
-      `)
+    document.body.style.backgroundImage = "url('./images/budapest_hotel_only_2.jpg')";
   },
 
   showDateInHeader: (date) => {
     $('.header-container').prepend(`
       <h3>${date}</h3>
       `)
+    },
+
+  addButtonsToCustomerHeader: () => {
+    $('.header-container').append(`
+      <section class="customer-button-conatiner">
+      <button id="all-bookings-btn" role="button">All Bookings</button>
+      <button id="total-spent-on-accomodations-btn" role="button">Total Spent on Accomodations</button>
+      <button id="customer-book-room-btn" role="button">Book A Room</button>
+      </section>
+      `)
+  },
+
+  addDashboardContianerForCustomer: () => {
+    $('.header-container').after(
+      `<section class = "dashboard-contianer">
+      </section>`
+    );
+  },
+
+  populateCustomerBookingsInDash: (currentCustomer) => {
+    currentCustomer.myBookings.forEach(booking => {
+      $('.dashboard-contianer').append(`
+        <article class="customer-booking-container">
+        <p><span class="customer-booking-category">DATE:</span> ${booking.date}<p>
+        <p><span class="customer-booking-category">ROOM NUMBER:</span> ${booking.roomNumber}<p>
+        <p><span class="customer-booking-category">ROOM SERVICE CHARGES:</span> ${booking.roomServiceCharges}<p>
+        <p><span class="customer-booking-category">CONFIRAMTION ID:</span> ${booking.id}<p>
+        </article>
+        `);
+    });
+  },
+
+  populateCustomerSpendingInDash: (currentCustomer) => {
+    $('.dashboard-contianer').prepend(`
+      <article class="customer-spending"><p>${currentCustomer.myTotalSpent}</p></arcitle>
+      `);
+  },
+
+  addBookingFeatureForCustomer: (currentCustomer, hotel) => {
+    //date selector
+    //pull-down with available rooms
+    //^^^when a room is selected, it should show room details
+    //ERROR handling 'we are sorry there are NO rooms'
+
+    //then post the room to database---->
+  },
+
+  addButtonsToManagerHeader: () => {
+    $('.header-container').append(`
+      <section class="manager-button-conatiner">
+      <button id="total-rooms-availble-today-btn" role="button">Total Rooms Availble Today</button>
+      <button id="total-revenue-for-today-btn" role="button">Total Revenue for Today</button>
+      <button id="percentage-of-rooms-occupied-today-btn" role="button">Percentage of Rooms Occupied Today</button>
+      </section>
+      `)
+
+  },
+
+  addDashboardContianerForManager: () => {
+    console.log('hola');
+    $('.header-container').after(
+      `<section class = "dashboard-contianer">
+      </section>`
+    );
+  },
+
+  addTotalRoomsAvailableToday: (hotel) => {
+    $('.dashboard-contianer').append(`
+      <article class="hotel-info-total-rooms-dash">
+      <p>${hotel.findAvailableRoomsToday()}</p>
+      </article>
+      `);
+  },
+
+  addTotalRevenueForToday: (hotel) => {
+    $('.dashboard-contianer').append(`
+      <article class="hotel-info-revenue-dash">
+      <p>${hotel.calculateTotalRevenueToday()}</p>
+      </article>
+      `);
+  },
+
+  addPercentageOfRoomsOccupiedToday: (hotel) => {
+    $('.dashboard-contianer').append(`
+      <article class="hotel-info-precentage-occupied-dash">
+      <p>${hotel.calculatePercentageOfRoomsOccupiedToday()}</p>
+      </article>
+      `);
   },
 };
 
