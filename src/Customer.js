@@ -5,7 +5,7 @@ class Customer {
     this.id = id;
     this.rooms = rooms;
     this.bookings = bookings;
-    this.today = today;
+    this.today = today || moment().format('YYYY/MM/DD');
     this.myBookings = this.findMyBookings();
     this.myTotalSpent = this.findMyTotalSpent();
   }
