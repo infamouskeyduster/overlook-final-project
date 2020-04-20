@@ -77,6 +77,18 @@ describe('Hotel', function(){
     expect(hotel).to.be.an.instanceof(Hotel);
   });
 
+  it('Should be instantiated with defualt properties: Rooms, Bookings, Today', function(){
+    expect(hotel.rooms).to.deep.equal(rooms);
+    expect(hotel.bookings).to.deep.equal(bookings);
+    expect(hotel.today).to.equal('2020/02/07');
+  });
+
+  it('After the findAvailableRoomsToday() method is ran, these properties should be updated: hotel.totalRooms, hotel.availableRoomsQty', function(){
+    hotel.findAvailableRoomsToday();
+    expect(hotel.totalRooms).to.equal(3);
+    expect(hotel.availableRoomsQty).to.equal(0);
+  });
+
   it('Should be able to find the number of bookings on a given date', function(){
     expect(hotel.todaysBookingsQty).to.equal(3);
     hotel = new Hotel(rooms, bookings, '2020/04/17');
@@ -109,6 +121,11 @@ describe('Hotel', function(){
   it('Should be able to find an Array of Room Numbers that are booked on a certain date (not neccessarily today)', function(){
     expect(hotel.findBookingsByAnyDate('2020/02/07')).to.deep.equal([ 1, 2, 3 ]);
     expect(hotel.findBookingsByAnyDate('2020/04/20')).to.deep.equal([]);
+  });
+
+  it('After the findAvailableRoomsObjects(date) method is ran, the property hotel.availableRooms should be updated', function(){
+    hotel.findAvailableRoomsObjects('2020/04/19');
+    expect(hotel.availableRooms).to.deep.equal(hotel.rooms);
   });
 
   it('Should be able to return an array of Availble Room Objects', function(){
@@ -144,6 +161,44 @@ describe('Hotel', function(){
         costPerNight: 477.38
       }
     expect(hotel.retrieveSpecificRoomObjectUsingRoomNumber(2)).to.deep.equal(foundRoom);
+  });
+
+  it('Should be able to filter all available Rooms for a day based on the Room Type', function(){
+    let availableRooms =
+    [
+      {
+        number: 2,
+        roomType: 'suite',
+        bidet: false,
+        bedSize: 'full',
+        numBeds: 2,
+        costPerNight: 477.38
+      },
+      {
+        number: 3,
+        roomType: 'single room',
+        bidet: false,
+        bedSize: 'king',
+        numBeds: 1,
+        costPerNight: 491.14
+      }
+  ];
+
+  let availableRoomTypeAsSuite =
+  [
+    {
+      number: 2,
+      roomType: 'suite',
+      bidet: false,
+      bedSize: 'full',
+      numBeds: 2,
+      costPerNight: 477.38
+    },
+  ];
+
+    hotel.findAvailableRoomsObjects('2020/04/17');
+    expect(hotel.availableRooms).to.deep.equal(availableRooms);
+    expect(hotel.filterAvailableRoomsByRoomType('suite')).to.deep.equal(availableRoomTypeAsSuite);
   });
 
 });
