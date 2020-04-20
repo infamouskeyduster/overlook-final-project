@@ -1,6 +1,9 @@
 import $ from 'jquery';
 import moment from 'moment';
+// import apiController from './api-controller';
+
 let today = moment().format('YYYY-MM-DD');
+// let apiController = new ApiController();
 
 const domUpdates = {
   loadPage: () => {
@@ -111,9 +114,28 @@ const domUpdates = {
           <input type="date" id="date-to-stay" name="date-to-stay" value="${today}" min="${today}" max="2020-12-31">
        </section>
       `);
+
       $('#date-to-stay').on('change', () => {
-        $('.room-info-container').remove();
+        $('.room-type-pull-down-container').remove();
         $('.room-number-pull-down-container').remove();
+        $('.room-info-container').remove();
+        $('.customer-booking-modal').append(`
+           <article class="room-type-pull-down-container">
+             <label for="select-room-by-type">Please choose a <i>Room Type</i> to view available rooms:</label>
+               <select id="select-room-by-type">
+                 <option value="null"></option>
+                 <option value="single room">Single Room</option>
+                 <option value="suite">Suite</option>
+                 <option value="junior suite">Junior Suite</option>
+                 <option value="residential suite">Residential Suite</option>
+               </select>
+           </article>
+           `);
+
+      $('#select-room-by-type').on('change', () => {
+        $('.room-number-pull-down-container').remove();
+        $('.room-info-container').remove();
+        // console.log('select room btn clicked');
         $('.customer-booking-modal').append(`
           <article class="room-number-pull-down-container">
           <label for="select-room-by-number">Please choose an AVAILABLE room to view details:</label>
@@ -121,29 +143,28 @@ const domUpdates = {
           </select>
           </article>
           `);
-          domUpdates.addAvailableRoomNumbersToDropDown(hotel, $('#date-to-stay').val())
+          domUpdates.addAvailableRoomNumbersToDropDown(hotel, $('#date-to-stay').val(), $('#select-room-by-type').val())
       });
-    //date selector
-    //pull-down with available rooms
-    //^^^when a room is selected, it should show room details
-    //ERROR handling 'we are sorry there are NO rooms'
-
-    //then post the room to database---->
+    });
   },
 
-  addAvailableRoomNumbersToDropDown: (hotel, date) => {
+  addAvailableRoomNumbersToDropDown: (hotel, date, roomType) => {
+    // console.log('room type passed to domUpdates.addAvailableRoomNumbersToDropDown', roomType);
     let unformattedDate = date;
-    console.log('unformatted date', unformattedDate);
+    // console.log('unformatted date', unformattedDate);
     let formattedDate = moment(unformattedDate).format('YYYY/MM/DD');
-    console.log('formatted date', formattedDate);
-    let availableRooms = hotel.findAvailableRoomsObjects(formattedDate);
-    console.log('availableRooms', availableRooms);
-    if(availableRooms.length > 0) {
-      return availableRooms.forEach(room => {
+    // console.log('formatted date', formattedDate);
+    hotel.findAvailableRoomsObjects(formattedDate);
+    // console.log(hotel.availableRooms);
+    let availableRoomByType = hotel.filterAvailableRoomsByRoomType(roomType);
+    // console.log('availableRoomsByType', availableRoomByType);
+    if(availableRoomByType.length > 0) {
+      $('#select-room-by-number').append(`<option value="null"></option>`);
+      return availableRoomByType.forEach(room => {
         $('#select-room-by-number').append(`<option value="${room.number}">Room Number: ${room.number}</option>`)
       });
     } else {
-      window.alert('The Concierge M. Gustave is terribly saddened, and deeply apologetic… we have no rooms available on this day')
+      window.alert('The Concierge M. Gustave is terribly saddened, and deeply apologetic…we have no rooms of this type available on this day. Please choose a different type of room to proceed')
     }
   },
 
@@ -151,34 +172,53 @@ const domUpdates = {
     $('.room-info-container').remove();
     let roomNumber = parseInt($('#select-room-by-number').val());
     let foundRoom = hotel.retrieveSpecificRoomObjectUsingRoomNumber(roomNumber);
-    console.log('found room by room number', foundRoom);
+    // console.log('found room by room number', foundRoom);
     $('.customer-booking-modal').append(`
       <article class="room-info-container">
-      <p>Information for Your Room Choice:</p>
+      <p>Information for your room choice:</p>
       <ul>
-        <li>Bed Size: ${foundRoom.bedSize.toUpperCase()}</li>
-        <li>Bidet in suite: ${foundRoom.bidet}</li>
-        <li>Cost of Room Per Night: $${foundRoom.costPerNight}USD</li>
-        <li>Number of Beds: ${foundRoom.numBeds}</li>
-        <li>Room Type: ${foundRoom.roomType.toUpperCase()}</li>
+        <li><b>Bed Size:</b> ${foundRoom.bedSize.toUpperCase()}</li>
+        <li><b>Bidet in suite:</b> ${foundRoom.bidet}</li>
+        <li><b>Cost of Room Per Night:</b> $${foundRoom.costPerNight}USD</li>
+        <li><b>Number of Beds:</b> ${foundRoom.numBeds}</li>
+        <li><b>Room Type:</b> ${foundRoom.roomType.toUpperCase()}</li>
       </ul>
-      <button>BOOK ROOM NOW!</button>
+      <button id="book-room-now-btn">BOOK ROOM NOW!</button>
       `)
+  },
+
+  showBookingConfirmationMessage: (bookingPostObj) => {
+  console.log('bookingPostObj in DOM method',bookingPostObj);
+  let unformattedDate = bookingPostObj.date;
+  let formattedDate = moment(unformattedDate).format('MMM Do, YYYY');
+  $('.customer-booking-modal').empty();
+  $('.customer-booking-modal').append(`
+    <section id="booking-confirmation-container">
+      <article>
+        <h4 style="text-align : center; border-bottom: 2.75px solid #e9747d;"><b>YOUR BOOKING WAS SUCCESSFUL!</b></h4>
+        <h4 style="text-align : center; color: #f5f3f4;">we will see you on ${formattedDate}!</h4>
+        <h4 style="text-align : center; color: #f5f3f4;">you are confirmed, and will be  staying with us in room number ${bookingPostObj.roomNumber}.</h4>
+      </article>
+    </section>
+    `);
+
+    //First delete things inside of booking main countainer
+    //then add 2 divs one for message, one for visual of bookingPostObj
+    //ADD code here for successful booking mesage on DOM
   },
 
   addButtonsToManagerHeader: () => {
     $('.header-container').append(`
       <section class="manager-button-conatiner">
-      <button id="total-rooms-availble-today-btn" role="button">Total Rooms Availble Today</button>
+      <button id="total-rooms-available-today-btn" role="button">Total Rooms Available Today</button>
       <button id="total-revenue-for-today-btn" role="button">Total Revenue for Today</button>
       <button id="percentage-of-rooms-occupied-today-btn" role="button">Percentage of Rooms Occupied Today</button>
       </section>
       `)
-
   },
 
   addDashboardContianerForManager: () => {
-    console.log('hola');
+    // console.log('hola');
     $('.header-container').after(
       `<section class = "dashboard-contianer">
       </section>`
