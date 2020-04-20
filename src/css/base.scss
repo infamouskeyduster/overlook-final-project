@@ -43,7 +43,8 @@ body {
   flex-direction: column;
   align-items: center;
   height: 300px;
-  width: 96%;
+  outline: 1px solid red;
+  position: relative;
 }
 
 #welcome-header {
@@ -52,6 +53,7 @@ body {
   color: $brick;
   font-size: 2rem;
   padding-top: 5%;
+  outline: 1px solid red;
 }
 
 #grand-budapest-type {
@@ -61,6 +63,7 @@ body {
   font-size: 4.65rem;
   color: $white;
   margin: 0;
+  outline: 1px solid red;
 }
 
 .login-form-box {
