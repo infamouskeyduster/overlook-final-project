@@ -8,10 +8,12 @@ class Hotel {
     this.today = today || moment().format('YYYY/MM/DD');
     //make SURE to RUN hotel.findAvailableRoomsToday() before accessing the below properties;
     this.totalRooms = null;
-    this.availableRooms = null;
+    this.availableRoomsQty = null;
     // this.addRoomsToBookings(rooms)????? is this necessary?;
     this.todaysBookings = this.findTodaysBookings();
     this.todaysBookingsQty = this.todaysBookings.length;
+    //an array of all available rooms objects for a date (not just this.today);
+    this.availableRooms = null;
   }
 
   findTodaysBookings() {
@@ -22,8 +24,8 @@ class Hotel {
   //Returns a Quantity ONLY --- SEE Below method to get all available room objects RETURNED
   findAvailableRoomsToday() {
     this.totalRooms = this.rooms.length;
-    this.availableRooms = this.totalRooms - this.todaysBookingsQty;
-    return `There are ${this.availableRooms} of ${this.totalRooms} total rooms available today.`
+    this.availableRoomsQty = this.totalRooms - this.todaysBookingsQty;
+    return `There are ${this.availableRoomsQty} of ${this.totalRooms} total rooms available today.`
   }
 
   calculateTotalRevenueToday() {
@@ -40,7 +42,7 @@ class Hotel {
   }
 
   calculatePercentageOfRoomsOccupiedToday() {
-    if (this.totalRooms === null || this.availableRooms === null) {
+    if (this.totalRooms === null || this.availableRoomsQty === null) {
       return `The hotel cannot calculated the percentage of rooms without first calculating how many rooms it has & available rooms for the day`;
     } else {
       let percentOccupiedAsDecimal = this.todaysBookingsQty / this.totalRooms;
@@ -64,6 +66,7 @@ class Hotel {
   findAvailableRoomsObjects(date) {
     let occupiedRoomsByNumber = this.findBookingsByAnyDate(date);
     if (occupiedRoomsByNumber.length === 0) {
+      this.availableRooms = this.rooms;
       return this.rooms;
     } else {
       let allRoomsAvailableToday =
@@ -75,14 +78,22 @@ class Hotel {
         })
         return allAvailableRooms;
       }, []);
+      this.availableRooms = allRoomsAvailableToday;
       return allRoomsAvailableToday;
     }
   }
 
-//RETURNS a single Room Object from the Room Number
+  //RETURNS a single Room Object from the Room Number
   retrieveSpecificRoomObjectUsingRoomNumber(roomNumber) {
     return this.rooms.find(room => room.number === roomNumber);
   }
+
+  //RETURNS an array of Available Rooms fitlered by Type
+  //MAKE sure to run hotel.findAvailableRoomsObjects(date) FIRST to update available rooms by specific date 
+  filterAvailableRoomsByRoomType(roomTypeAsString) {
+    return this.availableRooms.filter(availableRoom => availableRoom.roomType === roomTypeAsString);
+  }
 }
+
 
 export default Hotel;
