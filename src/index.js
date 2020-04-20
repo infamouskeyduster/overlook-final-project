@@ -14,8 +14,8 @@ import Hotel from './Hotel';
 
 const circleType = new CircleType(document.getElementById('grand-budapest-type'));
 circleType.radius(600);
-
 let today = moment().format('MMM Do, YYYY');
+let apiController = new ApiController();
 // let today = moment().format('MM/DD/YYYY');
 
 //REMEMBER THAT we have 2 different format veraions of TODAY - one for display,
@@ -60,11 +60,11 @@ const getCurrentUserFirstName = () => {
 const checkCustomerNumber = (customer) => {
   let customerSplitAtNumber = customer.split('r');
   currentCustomerID = parseInt(customerSplitAtNumber[1]);
-  console.log(currentCustomerID);
+  console.log('current customer ID', currentCustomerID);
   if (currentCustomerID > 50) {
     window.alert('Your customer number is invalid. Makes sure that your customer number is between 1 & 50.');
   } else {
-    console.log('you are logged in as a customer');
+    // console.log('you are logged in as a customer');
     domUpdates.changeBodyBackgroundForCustomer();
     domUpdates.changeHeaderOnLogin();
     domUpdates.changeGrandBudapestToCustomerName(getCurrentUserFirstName());
@@ -89,7 +89,7 @@ $('.login-submit-btn').on('click', () => {
   let username = $('.username-input').val();
   let password = $('.password-input').val();
   if (username === 'manager' && password === 'overlook2020') {
-    console.log('you are logged in as the manager');
+    // console.log('you are logged in as the manager');
     domUpdates.changeBodyBackgroundForManager();
     domUpdates.changeHeaderOnLogin();
     domUpdates.changeGrandBudapestToManager(username);
@@ -109,7 +109,7 @@ const runAppAsManager = () => {
   hotel = new Hotel(rooms, bookings, today);
   hotel.findAvailableRoomsToday();
   domUpdates.addDashboardContianerForManager();
-  console.log('hotel obj', hotel);
+  // console.log('hotel obj', hotel);
 }
 
 const runAppAsCustomer = () => {
@@ -144,12 +144,12 @@ const globalEventHandler = (event) => {
       event.target.classList.add('button-clicked');
       domUpdates.populateCustomerSpendingInDash(currentCustomer);
     }
-  } else if(event.target.id === 'total-rooms-availble-today-btn') {
+  } else if(event.target.id === 'total-rooms-available-today-btn') {
     if (event.target.classList.contains('button-clicked')) {
       event.target.classList.remove('button-clicked');
       $('.hotel-info-total-rooms-dash').remove();
     } else {
-      console.log('total rooms btn clicked');
+      // console.log('total rooms btn clicked');
       event.target.classList.add('button-clicked');
       domUpdates.addTotalRoomsAvailableToday(hotel);
     }
@@ -181,6 +181,11 @@ const globalEventHandler = (event) => {
     $('#select-room-by-number').on('change', () => {
       domUpdates.retriveAndShowCustomerRoomInfo(hotel);
     })
+  } else if(event.target.id === 'book-room-now-btn') {
+    let unformattedDate = $('#date-to-stay').val();
+    let formattedDate = moment(unformattedDate).format('YYYY/MM/DD');
+    let roomNumber = $('#select-room-by-number').val();
+    apiController.postBookingForCustomer(currentCustomerID, formattedDate, roomNumber);
   }
 }
 
