@@ -1,4 +1,5 @@
 # PR Description
+
 Please include a summary of the change:
 
 
@@ -11,12 +12,10 @@ Commit Emojis:
 :bar_chart: new tests
 :camera_flash: adding screenshots
 :bento: Adding new assets or images
-
 :beetle: If it is a bug or issue fix, describe the issue that was fixed.
 
 
 If it is a new feature, describe the feature and the iteration of the project spec it addresses.
-
 
 
 Note any questions or struggles as well.
