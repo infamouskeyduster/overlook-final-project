@@ -1,6 +1,278 @@
-/* This is an example of using Sass, otherwise plain CSS works too*/
-$primary-background: pink;
+@import url('https://fonts.googleapis.com/css2?family=Bellota:ital,wght@0,300;1,700&display=swap&family=Shrikhand&display=swap&family=Montserrat:wght@500&display=swap');
+
+//Color pallette #1
+$hot-pink: #d47f94;
+$muted-pink: #eababa;
+$flesh-tone: #cd9c95;
+$cream-color: #ead9cf;
+$gold: #cc9554;
+$beige: #afa38d;
+$cool-grey: #66697c;
+
+//Color pallette #2
+$peach: #f6c4bb;
+$white: #f5f3f4;
+$flesh: #f3dad6;
+$salmon: #e9747d;
+$brick: #954A50;
+$purple: #4A2D37;
+
+//Fonts:
+$bellota: 'Bellota', cursive;
+$shirkhand: 'Shrikhand', cursive;
+$montserrat: 'Montserrat', sans-serif;
+
+* {
+  margin: 0;
+}
 
 body {
-  background-color: $primary-background;
+  width: 100%;
+  height: 100%;
+  background-color: $muted-pink;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-image: url('../images/budapest_walkway.jpg');
+  background-repeat: repeat;
+  background-size: 1550px;
+}
+
+.header-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 300px;
+  outline: 1px solid red;
+  position: relative;
+}
+
+#welcome-header {
+  display: flex;
+  font-family: $shirkhand;
+  color: $brick;
+  font-size: 2rem;
+  padding-top: 5%;
+  outline: 1px solid red;
+}
+
+#grand-budapest-type {
+  text-align: left;
+  font-family: $bellota;
+  font-weight: 300;
+  font-size: 4.65rem;
+  color: $white;
+  margin: 0;
+  outline: 1px solid red;
+}
+
+.login-form-box {
+  padding-top: 15px;
+  background-color: $flesh;
+  border: 9px outset $salmon;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  width: 25%;
+  filter: drop-shadow(0.25rem 0 0.75rem $brick);
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 65px, 0px, 65px, 0px;
+}
+
+.login-form,
+.username-input {
+  margin-bottom: 10px;
+}
+
+.username-input,
+.password-input {
+  width: 165px;
+}
+
+.login-form button {
+  margin-top: 15px;
+  cursor: pointer;
+}
+
+input {
+  text-align: center;
+}
+
+button {
+  font-family: $montserrat;
+  font-weight: 500;
+  text-align: center;
+  text-transform: uppercase;
+  color: $cool-grey;
+  background-color: $white;
+  border-radius: 7px;
+  height: 30px;
+  cursor: pointer;
+}
+
+.customer-button-conatiner,
+.manager-button-conatiner {
+  display: block;
+  position: absolute;
+  top: 160px;
+  left: 82px;
+}
+
+h3 {
+  display: flex;
+  align-self: flex-end;
+  padding: 5% 5% 0 0;
+  font-family: $montserrat;
+  font-size: 1.15rem;
+  color: $white;
+}
+
+.dashboard-contianer {
+  display: flex;
+  width: 88%;
+  margin-top: 1.5%;
+  flex-wrap: wrap;
+}
+
+.button-clicked {
+  background-color: $purple;
+  color: $white;
+  border: 0;
+}
+
+.customer-booking-container {
+  display: flex;
+  flex-direction: column;
+  opacity: 0.9;
+  background-color: $gold;
+  color: $purple;
+  border-radius: 6px;
+  font-family: "Montserrat", sans-serif;
+  font-size: 0.85rem;
+  line-height: 1.6rem;
+  width: 18%;
+  height: 30%;
+  margin-bottom: 15px;
+  margin-right: 12px;
+  padding: 12px 0px 12px 13px;
+}
+
+.customer-spending {
+  display: flex;
+  align-self: flex-start;
+  width: 97.25%;
+  font-family: $montserrat;
+  font-size: 1.9rem;
+  color: $purple;
+  margin-bottom: 20px;
+  background-color: $white;
+  opacity: 0.75;
+  padding: 10px 10px 10px 10px;
+}
+
+.hotel-info-total-rooms-dash,
+.hotel-info-revenue-dash,
+.hotel-info-precentage-occupied-dash {
+  display: flex;
+  flex-direction: column;
+  opacity: 0.9;
+  text-align: center;
+  background-color: #cc9554;
+  color: #4A2D37;
+  border-radius: 6px;
+  font-family: "Montserrat", sans-serif;
+  font-size: 1.85rem;
+  line-height: 2.9rem;
+  width: 18%;
+  margin-bottom: 15px;
+  margin-right: 84px;
+  padding: 40px 55px 40px 55px;
+}
+
+.customer-booking-modal{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  opacity: 0.9;
+  text-align: center;
+  background-color: #cc9554;
+  color: #4A2D37;
+  border-radius: 6px;
+  font-family: "Montserrat", sans-serif;
+  font-size: 1.85rem;
+  line-height: 2.9rem;
+  width: 60%;
+  padding: 40px 55px 40px 55px;
+  margin-bottom: 65px;
+}
+
+.customer-booking-modal input {
+  display: flex;
+  align-self: center;
+  font-family: $montserrat;
+  border-radius: 7px;
+  margin-top: 35px;
+  width:35%;
+  height: 40px;
+  font-size: 1.15rem;
+  border: 1.5px solid $cool-grey;
+}
+
+.room-number-pull-down-container,
+.room-type-pull-down-container {
+  display: flex;
+  align-self: center;
+  justify-content: center;
+  flex-direction: column;
+  font-family: $montserrat;
+  border-radius: 7px;
+  margin-top: 35px;
+  font-size: 1.8rem;
+}
+
+.room-number-pull-down-container select,
+.room-type-pull-down-container select,
+.room-type-pull-down-container button {
+  font-family: $montserrat;
+  text-align: center;
+  align-self: center;
+  cursor: pointer;
+  margin-top: 35px;
+  width:35%;
+  height: 40px;
+  font-size: 1.15rem;
+  border-radius: 7px;
+  border: 1.5px solid $cool-grey;
+}
+
+.room-info-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.room-info-container p {
+  margin-top: 35px;
+}
+
+ul {
+  margin-top:40px;
+  background-color: $peach;
+  border: 4px outset $hot-pink;
+  list-style: none;
+  font-size: 1.2rem;
+  line-height: 1.9rem;
+  width: 60%;
+  border-radius: 10px;
+  padding: 15px 0px 15px 0px,
+}
+
+.room-info-container button {
+  margin-top: 25px;
+  cursor: pointer;
 }
