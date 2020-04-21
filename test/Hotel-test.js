@@ -1,5 +1,9 @@
 import { expect } from 'chai';
 import Hotel from '../src/Hotel';
+import domUpdates from '../src/dom-updates';
+const chai = require('chai');
+const spies = require('chai-spies');
+chai.use(spies);
 
 describe('Hotel', function(){
   let rooms, bookings, today, hotel;
