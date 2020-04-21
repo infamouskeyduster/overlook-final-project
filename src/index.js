@@ -111,7 +111,7 @@ const runAppAsManager = () => {
   hotel = new Hotel(rooms, bookings, today);
   hotel.findAvailableRoomsToday();
   domUpdates.addDashboardContianerForManager();
-  manager = new Manager(users);
+  manager = new Manager(users, bookings, today);
   // console.log('hotel obj', hotel);
 }
 
@@ -222,12 +222,18 @@ const globalEventHandler = (event) => {
     domUpdates.addBookingFeatureForCustomer(currentCustomer, hotel);
 
   } else if(event.target.classList.contains('delete-customer-booking-btn')) {
-    $('.dashboard-contianer').empty();
+    // $('.dashboard-contianer').empty();
     instantiateNewCustomerAsManager(event);
+    console.log('current customer', currentCustomer);
+    manager.findCustomerBookingsInFuture(currentCustomer);
   } else if (event.target.classList.contains('show-customer-total-spent-btn')) {
     instantiateNewCustomerAsManager(event);
     console.log('currentCustomer', currentCustomer);
     domUpdates.showTotalCustomerHasSpent(event, currentCustomer);
+  } else if (event.target.classList.contains('delete-booking')) {
+    let reservationID = parseInt(event.target.closest('article').id);
+    console.log('reservationID', reservationID, typeof reservationID);
+    manager.deleteBookingForCustomer(reservationID, event);
   }
 }
 
