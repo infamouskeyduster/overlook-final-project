@@ -2,6 +2,7 @@ import $ from 'jquery';
 import './css/base.scss';
 import CircleType from 'circletype';
 import moment from 'moment';
+import './images/grand_budapest_monogram_favicon.jpg';
 import './images/concierge_desk.jpg';
 import './images/budapest_at_night_2.jpg';
 import './images/manager.jpg';
@@ -123,6 +124,12 @@ const runAppAsCustomer = () => {
   // console.log('customer obj', currentCustomer);
 }
 
+const instantiateNewCustomerAsManager = (event) => {
+  let stringID = event.target.closest('article').id;
+  currentCustomerID = parseInt(stringID);
+  currentCustomer = new Customer(currentCustomerID, rooms, bookings, today);
+}
+
 const globalEventHandler = (event) => {
   if (event.target.id === 'all-bookings-btn') {
     $('#customer-book-room-btn').removeClass('button-clicked');
@@ -188,6 +195,7 @@ const globalEventHandler = (event) => {
     let formattedDate = moment(unformattedDate).format('YYYY/MM/DD');
     let roomNumber = $('#select-room-by-number').val();
     apiController.postBookingForCustomer(currentCustomerID, formattedDate, roomNumber);
+    //RIGHT HERE WE NEED to re-FETCH our data;
   } else if(event.target.id === 'search-for-guests') {
     //Check manager search bar for entry
     $('#search-for-guests').on('keyup', () => {
@@ -201,6 +209,25 @@ const globalEventHandler = (event) => {
   } else if(event.target.id === 'search-customers-btn') {
     //this will populate the dom from the Manager Class;
     manager.searchCustomerByFirstOrLastName($('#search-for-guests').val());
+  } else if(event.target.classList.contains('view-customer-history-btn')) {
+    $('.dashboard-contianer').empty();
+    instantiateNewCustomerAsManager(event);
+    domUpdates.populateCustomerBookingsInDash(currentCustomer);
+    //instantiate a New Customer with the value from the innerHTML of the nearest <p>
+    //run the methods for the user to populate history on Dom.
+  } else if(event.target.classList.contains('book-customer-room-btn')) {
+    $('.dashboard-contianer').empty();
+    instantiateNewCustomerAsManager(event);
+    console.log('current customer', currentCustomer);
+    domUpdates.addBookingFeatureForCustomer(currentCustomer, hotel);
+
+  } else if(event.target.classList.contains('delete-customer-booking-btn')) {
+    $('.dashboard-contianer').empty();
+    instantiateNewCustomerAsManager(event);
+  } else if (event.target.classList.contains('show-customer-total-spent-btn')) {
+    instantiateNewCustomerAsManager(event);
+    console.log('currentCustomer', currentCustomer);
+    domUpdates.showTotalCustomerHasSpent(event, currentCustomer);
   }
 }
 

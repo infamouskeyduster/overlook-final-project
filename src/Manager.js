@@ -7,9 +7,6 @@ class Manager {
     this.foundCustomersWithSearch = null;
   }
 
-  //What happens on the DOM side if we filter more that ONE user?
-  //should we instantiate all found users?
-  //OR should we have the user click the customer to then instantiate that customer???
   searchCustomerByFirstOrLastName(searchName) {
     let lowerCaseSearchName = searchName.toLowerCase();
     let allFoundCustomers =
@@ -21,6 +18,9 @@ class Manager {
     });
     this.foundCustomersWithSearch = allFoundCustomers;
     this.displayFoundCustomers(this.foundCustomersWithSearch);
+    if (this.foundCustomersWithSearch.length === 0) {
+      window.alert('We\'re Sorry. Your search did not return any results! Please try again.' );
+    }
     return allFoundCustomers;
   }
 
