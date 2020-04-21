@@ -17,7 +17,7 @@ const domUpdates = {
     $('#welcome-header').css('padding-top', '0');
     $('#welcome-header').animate({
       right: '1200px',
-      top: '80px',
+      top: '-37px',
     });
     $('#grand-budapest-type').css('display', 'block');
     $('#grand-budapest-type').css('position', 'absolute');
@@ -45,14 +45,14 @@ const domUpdates = {
   animateTypeForManager: () => {
     $('#grand-budapest-type').animate({
       right: '900px',
-      top: '60px',
+      top: '50px',
     });
   },
 
   animateTypeForCustomer: () => {
     $('#grand-budapest-type').animate({
-      right: '880px',
-      top: '60px',
+      right: '865px',
+      top: '50px',
     });
   },
 
@@ -106,6 +106,7 @@ const domUpdates = {
       `);
   },
 
+  //BOOKING feature for customer
   addBookingFeatureForCustomer: (currentCustomer, hotel) => {
     $('.dashboard-contianer').css({'justify-content': 'center'});
     $('.dashboard-contianer').prepend(`
@@ -206,6 +207,7 @@ const domUpdates = {
     //then add 2 divs one for message, one for visual of bookingPostObj
     //ADD code here for successful booking mesage on DOM
   },
+  //END ———————— BOOKING feature for customer
 
   addButtonsToManagerHeader: () => {
     $('.header-container').append(`
@@ -213,6 +215,11 @@ const domUpdates = {
       <button id="total-rooms-available-today-btn" role="button">Total Rooms Available Today</button>
       <button id="total-revenue-for-today-btn" role="button">Total Revenue for Today</button>
       <button id="percentage-of-rooms-occupied-today-btn" role="button">Percentage of Rooms Occupied Today</button>
+      <section id="manager-search-container">
+      <label for="site-search">Search for Guests :</label>
+      <input type="search" id="search-for-guests" name="search all guests" aria-label="Search for Guests">
+      <button id="search-customers-btn">Search</button>
+      </section>
       </section>
       `)
   },
@@ -247,6 +254,22 @@ const domUpdates = {
       <p>${hotel.calculatePercentageOfRoomsOccupiedToday()}</p>
       </article>
       `);
+  },
+
+  displayFoundCustomersBySearch: (foundCustomersFromSearch) => {
+    // console.log('we have gotten into displayFoundCustomersBySearch in Dom Updates file');
+    $('.dashboard-contianer').empty();
+    foundCustomersFromSearch.forEach(customer => {
+      $('.dashboard-contianer').append(`
+        <article class="found-customers">
+        <p>Customer:<br><b>${customer.name}</b></p>
+        <p>Customer ID:<br>${customer.id}</p>
+        <button>view customer history</button>
+        <button>book a room</button>
+        <button>Delete a booking</button>
+        </article>
+        `);
+    });
   },
 };
 
