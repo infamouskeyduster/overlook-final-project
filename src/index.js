@@ -11,6 +11,7 @@ import ApiController from './api-controller';
 import CustomerRepo from './Customer-repo';
 import Customer from './Customer';
 import Hotel from './Hotel';
+import Manager from './Manager';
 
 const circleType = new CircleType(document.getElementById('grand-budapest-type'));
 circleType.radius(600);
@@ -21,7 +22,7 @@ let apiController = new ApiController();
 //REMEMBER THAT we have 2 different format veraions of TODAY - one for display,
 //the other for instantiating Hotel, Customer classes (same date format as Data);
 
-let users, rooms, bookings, hotel, currentCustomer, currentCustomerID, customerRepo, currentCustomerFirstName;
+let users, rooms, bookings, hotel, currentCustomer, currentCustomerID, customerRepo, currentCustomerFirstName, manager;
 
 const fetchData = () => {
   const apiController = new ApiController();
@@ -109,6 +110,7 @@ const runAppAsManager = () => {
   hotel = new Hotel(rooms, bookings, today);
   hotel.findAvailableRoomsToday();
   domUpdates.addDashboardContianerForManager();
+  manager = new Manager(users);
   // console.log('hotel obj', hotel);
 }
 
@@ -186,6 +188,19 @@ const globalEventHandler = (event) => {
     let formattedDate = moment(unformattedDate).format('YYYY/MM/DD');
     let roomNumber = $('#select-room-by-number').val();
     apiController.postBookingForCustomer(currentCustomerID, formattedDate, roomNumber);
+  } else if(event.target.id === 'search-for-guests') {
+    //Check manager search bar for entry
+    $('#search-for-guests').on('keyup', () => {
+      if ($('#search-for-guests').val().length > 0) {
+        $('#search-customers-btn').addClass('button-clicked');
+      } else {
+        $('#search-customers-btn').removeClass('button-clicked');
+        $('.dashboard-contianer').empty();
+      }
+    })
+  } else if(event.target.id === 'search-customers-btn') {
+    //this will populate the dom from the Manager Class;
+    manager.searchCustomerByFirstOrLastName($('#search-for-guests').val());
   }
 }
 
