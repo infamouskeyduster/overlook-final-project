@@ -202,10 +202,6 @@ const domUpdates = {
       </article>
     </section>
     `);
-
-    //First delete things inside of booking main countainer
-    //then add 2 divs one for message, one for visual of bookingPostObj
-    //ADD code here for successful booking mesage on DOM
   },
   //END ———————— BOOKING feature for customer
 
@@ -261,16 +257,22 @@ const domUpdates = {
     $('.dashboard-contianer').empty();
     foundCustomersFromSearch.forEach(customer => {
       $('.dashboard-contianer').append(`
-        <article class="found-customers">
-        <p>Customer:<br><b>${customer.name}</b></p>
-        <p>Customer ID:<br>${customer.id}</p>
-        <button>view customer history</button>
-        <button>book a room</button>
-        <button>Delete a booking</button>
+        <article class="found-customers" id="${customer.id}">
+        <p>Customer:<br><b>${customer.name.toUpperCase()}</b></p>
+        <p style="color: #954A50;">Customer ID:<br>${customer.id}</p>
+        <button class="show-customer-total-spent-btn" style="margin-top: 25px;">show customer spending</button>
+        <button class="view-customer-history-btn" style="margin-top: 10px;">view customer history</button>
+        <button class="book-customer-room-btn" style="margin-top: 10px;">book customer a room</button>
+        <button class="delete-customer-booking-btn" style="margin-top: 10px;">Delete customer's booking</button>
         </article>
         `);
     });
   },
+
+  showTotalCustomerHasSpent: (event, currentCustomer) => {
+    currentCustomer.findMyTotalSpent();
+    event.target.closest('article').insertAdjacentHTML('afterbegin', `<p style="font-size: 0.95rem; line-height: 1.2rem;">This customer has spent a total of $${currentCustomer.totalSpentDecimal}.</p>`)
+  }
 };
 
 export default domUpdates;
