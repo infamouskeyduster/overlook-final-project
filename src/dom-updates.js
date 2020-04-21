@@ -1,5 +1,6 @@
 import $ from 'jquery';
 import moment from 'moment';
+// import Manager from './Manager';
 // import apiController from './api-controller';
 
 let today = moment().format('YYYY-MM-DD');
@@ -263,16 +264,35 @@ const domUpdates = {
         <button class="show-customer-total-spent-btn" style="margin-top: 25px;">show customer spending</button>
         <button class="view-customer-history-btn" style="margin-top: 10px;">view customer history</button>
         <button class="book-customer-room-btn" style="margin-top: 10px;">book customer a room</button>
-        <button class="delete-customer-booking-btn" style="margin-top: 10px;">Delete customer's booking</button>
+        <button class="delete-customer-booking-btn" style="margin-top: 10px;">Delete future booking</button>
         </article>
         `);
     });
   },
 
+  displayCustomerBookingInFuture: (currentCustomer, futureBookings) => {
+    $('.dashboard-contianer').empty();
+    futureBookings.forEach(booking => {
+      $('.dashboard-contianer').append(`
+        <article class="found-customers" id="${booking.id}">
+        <p style="font-size: 1.1rem;">BOOKING DATE:<br><b>${booking.date}</b></p>
+        <hr>
+        <p style="font-size: 1.1rem; color: #954A50;">ROOM NUMBER:<br><b>${booking.roomNumber}</b></p>
+        <hr>
+        <p style="font-size: 0.95rem;">Confirmation Number:<br><b>${booking.id}</b></p>
+        <button class="delete-booking" style="margin-top: 25px;">delete booking</button>
+        `);
+    });
+  },
+
+  deleteBookingFromDOM: (event) => {
+    event.target.closest('article').remove();
+  },
+
   showTotalCustomerHasSpent: (event, currentCustomer) => {
     currentCustomer.findMyTotalSpent();
     event.target.closest('article').insertAdjacentHTML('afterbegin', `<p style="font-size: 0.95rem; line-height: 1.2rem;">This customer has spent a total of $${currentCustomer.totalSpentDecimal}.</p>`)
-  }
+  },
 };
 
 export default domUpdates;
