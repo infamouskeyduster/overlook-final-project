@@ -29,28 +29,27 @@ class Manager {
   }
 
   displayFoundCustomers() {
-    domUpdates.displayFoundCustomersBySearch(this.foundCustomersWithSearch);//<-----SPY ON THIS
+    domUpdates.displayFoundCustomersBySearch(this.foundCustomersWithSearch);
   }
 
-  findCustomerBookingsInFuture(currentCustomer) {//<-----TEST THIS!!!
+  findCustomerBookingsInFuture(currentCustomer) {
     let futureBookings =
     currentCustomer.myBookings.filter(booking => {
       var d1 = Date.parse(this.today);
       var d2 = Date.parse(booking.date);
         if (d1 < d2) return booking;
     })
-    console.log(futureBookings);
-    console.log('current customer in manager find future bookings', currentCustomer);
     this.displayFutureBookingsForCustomer(currentCustomer, futureBookings);
+    return futureBookings;
   }
 
   displayFutureBookingsForCustomer(currentCustomer, futureBookings) {
-    domUpdates.displayCustomerBookingInFuture(currentCustomer, futureBookings);//<-----SPY ON THIS
+    domUpdates.displayCustomerBookingInFuture(currentCustomer, futureBookings);
   }
 
-  deleteBookingForCustomer(reservationID, event) {
+  deleteBookingForCustomer(reservationID, event) {//<-----CANNOT SPY ON THIS; FETCH would need to be mocked out;
     apiController.deleteBookingForCustomer(reservationID);
-    domUpdates.deleteBookingFromDOM(event);//<-----SPY ON THIS
+    domUpdates.deleteBookingFromDOM(event);
   }
 }
 

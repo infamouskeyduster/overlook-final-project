@@ -24,7 +24,6 @@ describe('API Controller', function(){
     };
 
     chai.spy.on(domUpdates, 'showBookingConfirmationMessage', () => {});
-    console.log('Fetch needs to be mocked out to spy on this method, but if the fetch call is commeneted out, the SPY is working as expected');
     apiController.postBookingForCustomer(7, '2020/06/01', 14);
     expect(domUpdates.showBookingConfirmationMessage).to.have.been.called(1);
     expect(domUpdates.showBookingConfirmationMessage).to.have.been.called.with(bookingPostObj);

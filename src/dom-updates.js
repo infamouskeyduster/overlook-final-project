@@ -1,10 +1,7 @@
 import $ from 'jquery';
 import moment from 'moment';
-// import Manager from './Manager';
-// import apiController from './api-controller';
 
 let today = moment().format('YYYY-MM-DD');
-// let apiController = new ApiController();
 
 const domUpdates = {
   loadPage: () => {
@@ -137,7 +134,6 @@ const domUpdates = {
       $('#select-room-by-type').on('change', () => {
         $('.room-number-pull-down-container').remove();
         $('.room-info-container').remove();
-        // console.log('select room btn clicked');
         $('.customer-booking-modal').append(`
           <article class="room-number-pull-down-container">
           <label for="select-room-by-number">Please choose an AVAILABLE room to view details:</label>
@@ -151,15 +147,10 @@ const domUpdates = {
   },
 
   addAvailableRoomNumbersToDropDown: (hotel, date, roomType) => {
-    // console.log('room type passed to domUpdates.addAvailableRoomNumbersToDropDown', roomType);
     let unformattedDate = date;
-    // console.log('unformatted date', unformattedDate);
     let formattedDate = moment(unformattedDate).format('YYYY/MM/DD');
-    // console.log('formatted date', formattedDate);
     hotel.findAvailableRoomsObjects(formattedDate);
-    // console.log(hotel.availableRooms);
     let availableRoomByType = hotel.filterAvailableRoomsByRoomType(roomType);
-    // console.log('availableRoomsByType', availableRoomByType);
     if(availableRoomByType.length > 0) {
       $('#select-room-by-number').append(`<option value="null"></option>`);
       return availableRoomByType.forEach(room => {
@@ -174,7 +165,6 @@ const domUpdates = {
     $('.room-info-container').remove();
     let roomNumber = parseInt($('#select-room-by-number').val());
     let foundRoom = hotel.retrieveSpecificRoomObjectUsingRoomNumber(roomNumber);
-    // console.log('found room by room number', foundRoom);
     $('.customer-booking-modal').append(`
       <article class="room-info-container">
       <p>Information for your room choice:</p>
@@ -190,7 +180,6 @@ const domUpdates = {
   },
 
   showBookingConfirmationMessage: (bookingPostObj) => {
-  console.log('bookingPostObj in DOM method',bookingPostObj);
   let unformattedDate = bookingPostObj.date;
   let formattedDate = moment(unformattedDate).format('MMM Do, YYYY');
   $('.customer-booking-modal').empty();
@@ -222,7 +211,6 @@ const domUpdates = {
   },
 
   addDashboardContianerForManager: () => {
-    // console.log('hola');
     $('.header-container').after(
       `<section class = "dashboard-contianer">
       </section>`
@@ -254,7 +242,6 @@ const domUpdates = {
   },
 
   displayFoundCustomersBySearch: (foundCustomersFromSearch) => {
-    // console.log('we have gotten into displayFoundCustomersBySearch in Dom Updates file');
     $('.dashboard-contianer').empty();
     foundCustomersFromSearch.forEach(customer => {
       $('.dashboard-contianer').append(`
