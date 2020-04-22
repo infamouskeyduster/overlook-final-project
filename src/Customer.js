@@ -8,6 +8,7 @@ class Customer {
     this.today = today || moment().format('YYYY/MM/DD');
     this.myBookings = this.findMyBookings();
     this.myTotalSpent = this.findMyTotalSpent();
+    this.totalSpentDecimal = null;
   }
 
   findMyBookings() {
@@ -25,7 +26,7 @@ class Customer {
       return totalSpent;
     }, 0);
     let totalSpentInDollars = totalSpent.toFixed(2);
-    this.myTotalSpent = totalSpentInDollars;
+    this.totalSpentDecimal = totalSpentInDollars;
     return `You have spent a total of $${totalSpentInDollars} at The Grand Budapest Hotel.`
   }
 }

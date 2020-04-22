@@ -2,6 +2,7 @@ import $ from 'jquery';
 import './css/base.scss';
 import CircleType from 'circletype';
 import moment from 'moment';
+import './images/grand_budapest_monogram_favicon.jpg';
 import './images/concierge_desk.jpg';
 import './images/budapest_at_night_2.jpg';
 import './images/manager.jpg';
@@ -11,23 +12,20 @@ import ApiController from './api-controller';
 import CustomerRepo from './Customer-repo';
 import Customer from './Customer';
 import Hotel from './Hotel';
-
+import Manager from './Manager';
 const circleType = new CircleType(document.getElementById('grand-budapest-type'));
 circleType.radius(600);
 let today = moment().format('MMM Do, YYYY');
 let apiController = new ApiController();
 // let today = moment().format('MM/DD/YYYY');
-
 //REMEMBER THAT we have 2 different format veraions of TODAY - one for display,
 //the other for instantiating Hotel, Customer classes (same date format as Data);
-
-let users, rooms, bookings, hotel, currentCustomer, currentCustomerID, customerRepo, currentCustomerFirstName;
+let users, rooms, bookings, hotel, currentCustomer, currentCustomerID, customerRepo, currentCustomerFirstName, manager;
 
 const fetchData = () => {
   const apiController = new ApiController();
   Promise.all([apiController.getUsersData(), apiController.getRoomsData(), apiController.getBookingsData()])
     .then(data => {
-      // console.log('data', data);
       let usersData = data[0];
       let roomsData = data[1];
       let bookingsData = data[2];
@@ -35,7 +33,6 @@ const fetchData = () => {
     })
     // .catch(error => console.log(`There was an error obtaining all data ${error}`))
 }
-
 fetchData();
 
 const fetchedData = (usersData, roomsData, bookingsData) => {
@@ -44,10 +41,6 @@ const fetchedData = (usersData, roomsData, bookingsData) => {
   rooms = roomsData.rooms;
   bookings = bookingsData.bookings
   customerRepo = new CustomerRepo(users);
-  // console.log(customerRepo);
-  // console.log('users global var', users);
-  // console.log('rooms global var', rooms);
-  // console.log('bookings global var', bookings.length);
 }
 
 //LOGIN HELPER FUNCTION Gets Current User First Name;
@@ -56,15 +49,14 @@ const getCurrentUserFirstName = () => {
   currentCustomerFirstName = currentCustomerFullName.split(' ')[0];
   return currentCustomerFirstName;
 }
+
 //LOGIN Helper Function that sesses and splits customer Number
 const checkCustomerNumber = (customer) => {
   let customerSplitAtNumber = customer.split('r');
   currentCustomerID = parseInt(customerSplitAtNumber[1]);
-  console.log('current customer ID', currentCustomerID);
   if (currentCustomerID > 50) {
     window.alert('Your customer number is invalid. Makes sure that your customer number is between 1 & 50.');
   } else {
-    // console.log('you are logged in as a customer');
     domUpdates.changeBodyBackgroundForCustomer();
     domUpdates.changeHeaderOnLogin();
     domUpdates.changeGrandBudapestToCustomerName(getCurrentUserFirstName());
@@ -89,7 +81,6 @@ $('.login-submit-btn').on('click', () => {
   let username = $('.username-input').val();
   let password = $('.password-input').val();
   if (username === 'manager' && password === 'overlook2020') {
-    // console.log('you are logged in as the manager');
     domUpdates.changeBodyBackgroundForManager();
     domUpdates.changeHeaderOnLogin();
     domUpdates.changeGrandBudapestToManager(username);
@@ -109,7 +100,7 @@ const runAppAsManager = () => {
   hotel = new Hotel(rooms, bookings, today);
   hotel.findAvailableRoomsToday();
   domUpdates.addDashboardContianerForManager();
-  // console.log('hotel obj', hotel);
+  manager = new Manager(users, bookings, today);
 }
 
 const runAppAsCustomer = () => {
@@ -118,14 +109,18 @@ const runAppAsCustomer = () => {
   hotel = new Hotel(rooms, bookings, today);
   hotel.findAvailableRoomsToday();
   domUpdates.addDashboardContianerForCustomer();
-  // console.log('customer obj', currentCustomer);
+}
+
+const instantiateNewCustomerAsManager = (event) => {
+  let stringID = event.target.closest('article').id;
+  currentCustomerID = parseInt(stringID);
+  currentCustomer = new Customer(currentCustomerID, rooms, bookings, today);
 }
 
 const globalEventHandler = (event) => {
   if (event.target.id === 'all-bookings-btn') {
     $('#customer-book-room-btn').removeClass('button-clicked');
     $('.customer-booking-modal').remove();
-    //Remove booking modal from DOM here………
     if (event.target.classList.contains('button-clicked')) {
       event.target.classList.remove('button-clicked');
       $('.customer-booking-container').remove();
@@ -136,7 +131,6 @@ const globalEventHandler = (event) => {
   } else if (event.target.id === 'total-spent-on-accomodations-btn') {
     $('#customer-book-room-btn').removeClass('button-clicked');
     $('.customer-booking-modal').remove();
-    //Remove booking modal from DOM here………
     if (event.target.classList.contains('button-clicked')) {
       event.target.classList.remove('button-clicked');
       $('.customer-spending').remove();
@@ -145,15 +139,20 @@ const globalEventHandler = (event) => {
       domUpdates.populateCustomerSpendingInDash(currentCustomer);
     }
   } else if(event.target.id === 'total-rooms-available-today-btn') {
+    $('.dashboard-contianer').empty();
+    $('#total-revenue-for-today-btn').removeClass('button-clicked');
+    $('#percentage-of-rooms-occupied-today-btn').removeClass('button-clicked');
     if (event.target.classList.contains('button-clicked')) {
       event.target.classList.remove('button-clicked');
       $('.hotel-info-total-rooms-dash').remove();
     } else {
-      // console.log('total rooms btn clicked');
       event.target.classList.add('button-clicked');
       domUpdates.addTotalRoomsAvailableToday(hotel);
     }
   } else if(event.target.id === 'total-revenue-for-today-btn') {
+    $('.dashboard-contianer').empty();
+    $('#total-rooms-available-today-btn').removeClass('button-clicked');
+    $('#percentage-of-rooms-occupied-today-btn').removeClass('button-clicked');
     if (event.target.classList.contains('button-clicked')) {
       event.target.classList.remove('button-clicked');
       $('.hotel-info-revenue-dash').remove();
@@ -163,6 +162,9 @@ const globalEventHandler = (event) => {
       domUpdates.addTotalRevenueForToday(hotel);
     }
   } else if(event.target.id === 'percentage-of-rooms-occupied-today-btn') {
+    $('.dashboard-contianer').empty();
+    $('#total-rooms-available-today-btn').removeClass('button-clicked');
+    $('#total-revenue-for-today-btn').removeClass('button-clicked');
     if(event.target.classList.contains('button-clicked')) {
       event.target.classList.remove('button-clicked');
       $('.hotel-info-precentage-occupied-dash').remove();
@@ -171,6 +173,7 @@ const globalEventHandler = (event) => {
       domUpdates.addPercentageOfRoomsOccupiedToday(hotel);
     }
   } else if(event.target.id === 'customer-book-room-btn') {
+    $('.dashboard-contianer').empty();
     $('#all-bookings-btn').removeClass('button-clicked');
     $('.customer-booking-container').remove();
     $('#total-spent-on-accomodations-btn').removeClass('button-clicked');
@@ -186,6 +189,38 @@ const globalEventHandler = (event) => {
     let formattedDate = moment(unformattedDate).format('YYYY/MM/DD');
     let roomNumber = $('#select-room-by-number').val();
     apiController.postBookingForCustomer(currentCustomerID, formattedDate, roomNumber);
+    //RIGHT HERE WE NEED to re-FETCH our data;
+  } else if(event.target.id === 'search-for-guests') {
+    $('#search-for-guests').on('keyup', () => {
+      if ($('#search-for-guests').val().length > 0) {
+        $('#search-customers-btn').addClass('button-clicked');
+      } else {
+        $('#search-customers-btn').removeClass('button-clicked');
+        $('.dashboard-contianer').empty();
+      }
+    })
+  } else if(event.target.id === 'search-customers-btn') {
+    $('#total-rooms-available-today-btn').removeClass('button-clicked');
+    $('#total-revenue-for-today-btn').removeClass('button-clicked');
+    $('#percentage-of-rooms-occupied-today-btn').removeClass('button-clicked');
+    manager.searchCustomerByFirstOrLastName($('#search-for-guests').val());
+  } else if(event.target.classList.contains('view-customer-history-btn')) {
+    $('.dashboard-contianer').empty();
+    instantiateNewCustomerAsManager(event);
+    domUpdates.populateCustomerBookingsInDash(currentCustomer);
+  } else if(event.target.classList.contains('book-customer-room-btn')) {
+    $('.dashboard-contianer').empty();
+    instantiateNewCustomerAsManager(event);
+    domUpdates.addBookingFeatureForCustomer(currentCustomer, hotel);
+  } else if(event.target.classList.contains('delete-customer-booking-btn')) {
+    instantiateNewCustomerAsManager(event);
+    manager.findCustomerBookingsInFuture(currentCustomer);
+  } else if (event.target.classList.contains('show-customer-total-spent-btn')) {
+    instantiateNewCustomerAsManager(event);
+    domUpdates.showTotalCustomerHasSpent(event, currentCustomer);
+  } else if (event.target.classList.contains('delete-booking')) {
+    let reservationID = parseInt(event.target.closest('article').id);
+    manager.deleteBookingForCustomer(reservationID, event);
   }
 }
 

@@ -43,17 +43,15 @@ body {
   flex-direction: column;
   align-items: center;
   height: 300px;
-  outline: 1px solid red;
-  position: relative;
 }
 
 #welcome-header {
+  margin-top: 100px;
   display: flex;
   font-family: $shirkhand;
   color: $brick;
   font-size: 2rem;
   padding-top: 5%;
-  outline: 1px solid red;
 }
 
 #grand-budapest-type {
@@ -63,10 +61,10 @@ body {
   font-size: 4.65rem;
   color: $white;
   margin: 0;
-  outline: 1px solid red;
 }
 
 .login-form-box {
+  margin-top: 30px;
   padding-top: 15px;
   background-color: $flesh;
   border: 9px outset $salmon;
@@ -82,6 +80,10 @@ body {
   flex-direction: column;
   align-items: center;
   margin: 65px, 0px, 65px, 0px;
+}
+
+.login-form button {
+  margin: 0;
 }
 
 .login-form,
@@ -101,6 +103,13 @@ body {
 
 input {
   text-align: center;
+  font-family: $montserrat;
+  font-weight: 500;
+  border-radius: 7px;
+  border: none;
+  height: 23px;
+  font-size: 0.8rem;
+  margin-left: 15px 0px 0px 15px;
 }
 
 button {
@@ -113,14 +122,15 @@ button {
   border-radius: 7px;
   height: 30px;
   cursor: pointer;
+  margin-right: 15px;
 }
 
 .customer-button-conatiner,
 .manager-button-conatiner {
-  display: block;
-  position: absolute;
-  top: 160px;
-  left: 82px;
+  display: flex;
+  align-self: flex-start;
+  flex-direction: row;
+  margin: 25px 0px 0px 25px;
 }
 
 h3 {
@@ -134,7 +144,8 @@ h3 {
 
 .dashboard-contianer {
   display: flex;
-  width: 88%;
+  justify-content: space-around;
+  width: 92%;
   margin-top: 1.5%;
   flex-wrap: wrap;
 }
@@ -165,19 +176,21 @@ h3 {
 .customer-spending {
   display: flex;
   align-self: flex-start;
-  width: 97.25%;
-  font-family: $montserrat;
+  width: 97.2%;
+  font-family: "Montserrat", sans-serif;
   font-size: 1.9rem;
-  color: $purple;
+  color: #4A2D37;
   margin-bottom: 20px;
-  background-color: $white;
+  margin-left: -10px;
+  background-color: #f5f3f4;
   opacity: 0.75;
   padding: 10px 10px 10px 10px;
 }
 
 .hotel-info-total-rooms-dash,
 .hotel-info-revenue-dash,
-.hotel-info-precentage-occupied-dash {
+.hotel-info-precentage-occupied-dash,
+.found-customers {
   display: flex;
   flex-direction: column;
   opacity: 0.9;
@@ -189,8 +202,8 @@ h3 {
   font-size: 1.85rem;
   line-height: 2.9rem;
   width: 18%;
-  margin-bottom: 15px;
-  margin-right: 84px;
+  margin-top: 30px;
+  justify-content: space-around;
   padding: 40px 55px 40px 55px;
 }
 
@@ -275,4 +288,22 @@ ul {
 .room-info-container button {
   margin-top: 25px;
   cursor: pointer;
+}
+
+#manager-search-container {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.manager-button-conatiner label {
+  font-family: $montserrat;
+  color: $white;
+  font-size: 1rem;
+  margin-top: 5px;
+  margin-right: 20px;
+}
+
+.manager-button-conatiner input {
+  height: 30px;
+  margin-right: 10px;
 }

@@ -43,6 +43,23 @@ class ApiController {
     .then(window.alert(`Your booking was successful! We will see you on ${date}!`))
     .catch(error => console.log(error.message));
   }
+
+  deleteBookingForCustomer(reservationID) {
+    let deletedBookingObj = {
+      'id': reservationID
+    };
+    let url = 'https://fe-apps.herokuapp.com/api/v1/overlook/1904/bookings/bookings';
+    return fetch(url, {
+      method: 'DELETE',
+      headers: {
+        'Content-type': 'application/json'
+      },
+      body: JSON.stringify(deletedBookingObj)
+    })
+    .then(response => console.log(response.json()))
+    .then(window.alert(`This booking has been removed from the system!`))
+    .catch(error => console.log(error.message));
+  }
 }
 
 export default ApiController;

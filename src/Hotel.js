@@ -9,7 +9,6 @@ class Hotel {
     //make SURE to RUN hotel.findAvailableRoomsToday() before accessing the below properties;
     this.totalRooms = null;
     this.availableRoomsQty = null;
-    // this.addRoomsToBookings(rooms)????? is this necessary?;
     this.todaysBookings = this.findTodaysBookings();
     this.todaysBookingsQty = this.todaysBookings.length;
     //an array of all available rooms objects for a date (not just this.today);
@@ -89,7 +88,7 @@ class Hotel {
   }
 
   //RETURNS an array of Available Rooms fitlered by Type
-  //MAKE sure to run hotel.findAvailableRoomsObjects(date) FIRST to update available rooms by specific date 
+  //MAKE sure to run hotel.findAvailableRoomsObjects(date) FIRST to update available rooms by specific date
   filterAvailableRoomsByRoomType(roomTypeAsString) {
     return this.availableRooms.filter(availableRoom => availableRoom.roomType === roomTypeAsString);
   }
