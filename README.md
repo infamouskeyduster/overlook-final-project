@@ -1,10 +1,11 @@
 # Overlook
 
 ## App Screenshot
-![Customer Interaction](https://imgur.com/BYj3OVm)
+![Grand_Budapest_Manager_Interaction](https://user-images.githubusercontent.com/49289426/79942194-80550a00-8423-11ea-91b1-47108427bf93.gif)
 
 
-![Manager Interaction](https://imgur.com/NDJ2nYM)
+![Grand_Budapest_Customer_Interaction](https://user-images.githubusercontent.com/49289426/79942084-408e2280-8423-11ea-8b30-0f2d6223042d.gif)
+
 
 ## Abstract
 This is the Final Solo Project for Front End Engineering Module 2 at Turing School of Software and Design. This APP is a full-fledged hotel booking and management application, inspired by the Wes Anderson film ___'The Grand Budapest Hotel'___. Using this application, a hotel customer or hotel manager can view customer bookings and spending, books rooms for themselves and delete bookings. The app uses the `fetch()` API to `GET`, `POST` and `DELETE` data from an external database. This app utilizes all of the fundamental of OOP, TDD, and SRP. All functionality has been broken apart into classes so that the code is modular, and easily modifiable. Enjoy the splendor of our historical establishment in this decadent app.
