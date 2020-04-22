@@ -15,9 +15,9 @@ This is the Final Solo Project for Front End Engineering Module 2 at Turing Scho
 - SCSS
 - JavaScript
 - Fetch API
-- __Node Packages:__
-- Moment
-- CircleType
+- Node Packages:
+  - Moment
+  - CircleType
 
 ## Principles Demonstrated
 - Object Oriented Programming
