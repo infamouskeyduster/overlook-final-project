@@ -48,6 +48,8 @@ class ApiController {
     let deletedBookingObj = {
       'id': reservationID
     };
+    //delete this line below and comment back in the rest when DONE
+    // domUpdates.showBookingConfirmationMessage(bookingPostObj);
     let url = 'https://fe-apps.herokuapp.com/api/v1/overlook/1904/bookings/bookings';
     return fetch(url, {
       method: 'DELETE',
