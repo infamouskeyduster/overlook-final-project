@@ -78,3 +78,7 @@ typings/
 
 # DynamoDB Local files
 .dynamodb/
+
+# Large Ass GIFs
+budapest_manager_interaction.gif
+Budapest_customer_interaction.gif
